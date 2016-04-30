@@ -1,9 +1,25 @@
 // Enemies our player must avoid
 
+/*
+To do list:  Add collision detection.  Add reset function for
+when player touches enemy or reaches top.  Figure out how to
+make enemies appear in different rows.  Add score 
+function/lives.
+
+Fun stuff:  Add collectibles.  Add Battletoad super mode when
+enough collectibles are grabbed.  Incremental difficulty 
+increase.
+
+*/
+
+// Variables for player movement boundaries.
 var maxY = 404;
 var minY = 0;
 var maxX = 404;
 var minX = 0;
+//var playerStartX = 202;
+//var playerStartY = 404;
+
 
 /*
 var GetX = function(x) {
@@ -34,7 +50,7 @@ var Enemy = function() {
 
     this.x = 0;
     this.y = 220;
-    this.speed = Math.random() * 300;
+    this.speed = Math.random() * 300 + 40;
 
 /*
     this.x = GetX(3 * Math.random());
@@ -53,6 +69,11 @@ Enemy.prototype.update = function(dt) {
 //    this.x = GetX * Math.random * dt;
 
     this.x += dt * this.speed;
+
+    if(this.x > maxX) {
+        this.x = 0;
+    }
+
 /*
 for(var i = 0; i < allEnemies.length; i++) {
     this.x = allEnemies[i].x;
@@ -73,8 +94,6 @@ Enemy.prototype.render = function() {
 
 var Player = function() {
 //    this.name = name;
-//Player y u no appear?    
-
 
     this.x = 202;
     this.y = 404;
@@ -89,9 +108,20 @@ Player.prototype.display = function(greeting) {
 };
 
 Player.prototype.update = function(dt) {
-//Handles player movement I think.  Do I still need this?
-//      this.x = 202;
+//If statement for detecting enemy collision.  Does not work correctly.
 
+/*
+    if(this.x <= Enemy.x + 40 && this.x >= Enemy.x - 40 && this.y >= Enemy.y + 40 && this.y <= Enemy.y - 40 ){
+        this.x = 202;
+        this.y = 404;
+    };
+*/
+
+//If statement for detecting when player reaches top.  Does work correctly.
+    if(this.y < minY){
+        this.x = 202;
+        this.y = 404;
+    };
 
 //
 };
