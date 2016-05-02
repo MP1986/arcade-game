@@ -2,13 +2,12 @@
 
 /*
 To do list:  Add collision detection.  Add reset function for
-when player touches enemy or reaches top.  Figure out how to
-make enemies appear in different rows.  Add score 
-function/lives.
+when player touches enemy.  Figure out how to
+make enemies appear in different rows.  
 
 Fun stuff:  Add collectibles.  Add Battletoad super mode when
 enough collectibles are grabbed.  Incremental difficulty 
-increase.
+increase.  Add score function/lives.
 
 */
 
@@ -110,15 +109,14 @@ Player.prototype.display = function(greeting) {
 Player.prototype.update = function(dt) {
 //If statement for detecting enemy collision.  Does not work correctly.
 
-/*
+
     if(this.x <= Enemy.x + 40 && this.x >= Enemy.x - 40 && this.y >= Enemy.y + 40 && this.y <= Enemy.y - 40 ){
         this.x = 202;
         this.y = 404;
     };
-*/
 
 //If statement for detecting when player reaches top.  Does work correctly.
-    if(this.y < minY){
+    if(this.y < minY) {
         this.x = 202;
         this.y = 404;
     };
