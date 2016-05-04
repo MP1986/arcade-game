@@ -38,7 +38,6 @@ var GetY = function(y) {
 
 
 
-
 var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
@@ -49,6 +48,8 @@ var Enemy = function() {
 
     this.x = 0;
     this.y = 220;
+    this.width = 50;
+    this.height = 50;
     this.speed = Math.random() * 300 + 40;
 
 /*
@@ -69,18 +70,52 @@ Enemy.prototype.update = function(dt) {
 
     this.x += dt * this.speed;
 
+for(var i = 0; i < allEnemies.length; i++) {
+    var spawnPoint = Math.random();
+
     if(this.x > maxX) {
-        this.x = 0;
+        if(spawnPoint >= 0 && spawnPoint <= .33) {
+            this.y = 220;
+            this.x = 0;
+        }
+        else if(spawnPoint > .33  && spawnPoint <= .66) {
+            this.y = 220 - 85.5;
+            this.x = 0;
+        }
+        else if(spawnPoint > .66  && spawnPoint <= 1) {
+            this.y = 220 - 85.5 - 85.5;
+            this.x = 0;
+        }
     }
+};
+
+};
 
 /*
-for(var i = 0; i < allEnemies.length; i++) {
-    this.x = allEnemies[i].x;
-    this.y = allEnemies[i].y;
-};
-*/
+Enemy.prototype.respawn = function() {
 
+for(var i = 0; i < allEnemies.length; i++) {
+    var spawnPoint = Math.random();
+
+    if(this.x > maxX) {
+        if(spawnPoint >= 0 && spawnPoint <= .33) {
+            this.y = 220;
+            this.x = 0;
+        }
+        else if(spawnPoint > .33  && spawnPoint <= .66) {
+            this.y = 220 + 85.5;
+            this.x = 0;
+        }
+        else if(spawnPoint > .66  && spawnPoint <= 1) {
+            this.y = 220 + 85.5 + 85.5;
+            this.x = 0;
+        }
+    console.log(spawnPoint);
+    }
 };
+
+}
+*/
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -96,6 +131,8 @@ var Player = function() {
 
     this.x = 202;
     this.y = 404;
+    this.width = 50;
+    this.height = 50;
 
     this.sprite = 'images/char-boy.png';
 };
@@ -109,12 +146,13 @@ Player.prototype.display = function(greeting) {
 Player.prototype.update = function(dt) {
 //If statement for detecting enemy collision.  Does not work correctly.
 
-
-    if(this.x <= Enemy.x + 40 && this.x >= Enemy.x - 40 && this.y >= Enemy.y + 40 && this.y <= Enemy.y - 40 ){
-        this.x = 202;
-        this.y = 404;
-    };
-
+/*
+    if(this.x < Enemy.x + Enemy.width && this.x + this.width > Enemy.x && this.y < Enemy.y + Enemy.height && this.height + this.y > Enemy.y)
+        {
+            this.x = 202;
+            this.y = 404;
+        };
+*/
 //If statement for detecting when player reaches top.  Does work correctly.
     if(this.y < minY) {
         this.x = 202;
@@ -123,6 +161,17 @@ Player.prototype.update = function(dt) {
 
 //
 };
+
+//Still not working.  Next I'll try adding rectangles.
+var enemyCollision = function() {
+    if(Player.x < Enemy.x + Enemy.width && Player.x + Player.width > Enemy.x && this.y < Enemy.y + Enemy.height && this.height + this.y > Enemy.y)
+            {
+                console.log("Test")
+                Player.x = 202;
+                Player.y = 404;
+            };    
+};
+
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
