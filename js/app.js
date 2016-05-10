@@ -1,4 +1,4 @@
-// Variables for player movement boundaries.
+    // Variables for player movement boundaries.
 var maxY = 404;
 var minY = 0;
 var maxX = 404;
@@ -21,8 +21,8 @@ var Enemy = function() {
     this.speed = Math.random() * 300 + 40;
 };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+    // Update the enemy's position, required method for game
+    // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -45,14 +45,14 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
-// Draw the enemy on the screen, required method for game
+    // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+    // Now write your own player class
+    // This class requires an update(), render() and
+    // a handleInput() method.
 var Player = function() {
     this.x = playerStartX;
     this.y = playerStartY;
@@ -61,28 +61,31 @@ var Player = function() {
     this.sprite = 'images/char-boy.png';
 };
 
-
 Player.prototype.update = function(dt) {
-    //Iterates through each enemy and calls collision function.
+
+    //Iterates through each enemy and checks for collision with player then sends //player back to start.
+
     for (var i = 0; i < allEnemies.length; i++) {
         var enemy = allEnemies[i];
-        enemyCollision(this, enemy);
+        if (player.x < enemy.x + enemy.width && player.x + player.width > enemy.x && player.y < enemy.y + enemy.height && player.height + player.y > enemy.y) {
+            player.x = 202;
+            player.y = 404;
+        };
     }
     //Detects when player reaches top and sends back to beginning.
     if (this.y < minY) {
         this.x = playerStartX;
         this.y = playerStartY;
-    };
+    }
 };
 
-//Renders player.
+    //Renders player.
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-//Handle player input.
+    //Handle player input.
 Player.prototype.handleInput = function(direction) {
-
     if (direction == 'up' && this.y > minY)
         this.y -= 85.5;
     else if (direction == 'down' && this.y < maxY)
@@ -93,22 +96,14 @@ Player.prototype.handleInput = function(direction) {
         this.x += 101;
 };
 
-//Function to detect collision between player and enemy and sends player back to start.
-var enemyCollision = function(player, enemy) {
-    if (player.x < enemy.x + enemy.width && player.x + player.width > enemy.x && player.y < enemy.y + enemy.height && player.height + player.y > enemy.y) {
-        player.x = 202;
-        player.y = 404;
-    };
-};
-
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
-var allEnemies = [new Enemy(0, 220), new Enemy(0, 440), new Enemy(0, 660)];
+    // Now instantiate your objects.
+    // Place all enemy objects in an array called allEnemies
+    // Place the player object in a variable called player
+var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
 var player = new Player();
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+    // This listens for key presses and sends the keys to your
+    // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
